@@ -516,14 +516,14 @@ void ExposeAPIInMainWorld(const std::string& key,
     return;
   }
 
-  v8::Local<v8::Context> isolated_context =
-      frame->WorldScriptContext(args->isolate(), World::ISOLATED_WORLD);
+  // v8::Local<v8::Context> isolated_context =
+  //     frame->WorldScriptContext(args->isolate(), World::ISOLATED_WORLD);
 
   context_bridge::ObjectCache object_cache;
   v8::Context::Scope main_context_scope(main_context);
   {
     v8::MaybeLocal<v8::Object> maybe_proxy = CreateProxyForAPI(
-        api_object, isolated_context, main_context, &object_cache, false, 0);
+        api_object, main_context, main_context, &object_cache, false, 0);
     if (maybe_proxy.IsEmpty())
       return;
     auto proxy = maybe_proxy.ToLocalChecked();
